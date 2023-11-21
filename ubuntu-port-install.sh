@@ -52,6 +52,23 @@ start_routines() {
   
   case $CHOICE in
     0)
+      msg_info "Updating Ubuntu (Patience)"
+      sudo apt-get update &>/dev/null
+      sudo apt-get -y dist-upgrade > /dev/null
+      msg_ok "Updated Ubuntu"
+      ;;
+    1)
+      msg_error "Selected no to Updating Ubuntu"
+      ;;
+  esac
+
+  whiptail --backtitle "Ubuntu Helper Scripts" --title "REBOOT" --menu "\nReboot Ubuntu now? (recommended)" 11 58 2 \
+    "yes" " " \
+    "no" " " 3>&2 2>&1 1>&3
+  CHOICE=$?
+  
+  case $CHOICE in
+    0)
       msg_info "Rebooting Proxmox VE"
       sleep 2
       msg_ok "Completed Post Install Routines"
