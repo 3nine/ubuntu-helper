@@ -79,7 +79,7 @@ start_routines() {
       msg_info "Rebooting Proxmox VE"
       sleep 2
       msg_ok "Completed Post Install Routines"
-      reboot
+      sudo reboot now
       ;;
     1)
       msg_error "Selected no to Rebooting Ubuntu (Reboot recommended)"
