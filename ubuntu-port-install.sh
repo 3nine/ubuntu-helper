@@ -44,12 +44,19 @@ msg_error() {
   echo -e "${BFR} ${CROSS} ${RD}${msg}${CL}"
 }
 
+sudo_cache() {
+  echo "Please enter root password to activate Sudo-Cache: "
+  sudo msg_ok "Activated Sudo-Cache"
+}
+
 start_routines() {
+  sudo_cache
+
   whiptail --backtitle "Ubuntu Helper Scripts" --title "REBOOT" --menu "\nReboot Ubuntu now? (recommended)" 11 58 2 \
     "yes" " " \
     "no" " " 3>&2 2>&1 1>&3
   CHOICE=$?
-  
+
   case $CHOICE in
     0)
       msg_info "Updating Ubuntu (Patience)"
