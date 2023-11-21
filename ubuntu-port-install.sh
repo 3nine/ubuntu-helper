@@ -52,10 +52,14 @@ start_routines() {
   
   case $CHOICE in
     0)
-      msg_info "Rebooting Ubuntu"
+      msg_info "Rebooting Proxmox VE"
+      sleep 2
+      msg_ok "Completed Post Install Routines"
+      reboot
       ;;
     1)
       msg_error "Selected no to Rebooting Ubuntu (Reboot recommended)"
+      msg_ok "Completed Post Install Routines"
       ;;
   esac
 }
