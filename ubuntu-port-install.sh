@@ -29,6 +29,9 @@ HOLD="-"
 CM="${GN}✓${CL}"
 CROSS="${RD}✗${CL}"
 
+set -euo pipefail
+shopt -s inherit_errexit nullglob
+
 msg_info() {
   local msg="$1"
   echo -ne " ${HOLD} ${YW}${msg}..."
@@ -44,42 +47,23 @@ msg_error() {
   echo -e "${BFR} ${CROSS} ${RD}${msg}${CL}"
 }
 
-sudo_cache() {
-  echo "Please enter root password to activate Sudo-Cache: "
-  sudo msg_ok "Activated Sudo-Cache"
-}
-
 start_routines() {
-  sudo_cache
 
-  dialog --backtitle "Ubuntu Helper Scripts" --title "UPDATE" --yesno "Update Ubuntu now?" 11 58
-    CHOICE=$?
-    case $CHOICE in
-    0)
-      msg_info "Updating Ubuntu (Patience)"
-      sudo apt-get update &>/dev/null
-      sudo apt-get -y dist-upgrade > /dev/null
+CHOICE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "UPDATE" --menu "\nUpdate Proxmox VE now?" 11 58 2 \
+    "yes" " " \
+    "no" " " 3>&2 2>&1 1>&3)
+  case $CHOICE in
+    yes)
+      msg_info "Updating Updated Ubuntu (Patience)"
+      apt-get update &>/dev/null
+      apt-get -y dist-upgrade &>/dev/null
       msg_ok "Updated Ubuntu"
       ;;
-    1)
-      msg_error "Selected no to Updating Ubuntu"
+    no)
+      msg_error "Selected no to Updating Proxmox VE"
       ;;
-    esac
+  esac
   
-  dialog --backtitle "Ubuntu Helper Scripts" --title "REBOOT" --yesno "Reboot Ubuntu now? (recommended)" 11 58
-    CHOICE=$?
-    case $CHOICE in
-    0)
-      msg_info "Rebooting Proxmox VE"
-      sleep 2
-      msg_ok "Completed Post Install Routines"
-      sudo reboot now
-      ;;
-    1)
-      msg_error "Selected no to Rebooting Ubuntu (Reboot recommended)"
-      msg_ok "Completed Post Install Routines"
-      ;;
-    esac
 }
 
 header_info
