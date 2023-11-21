@@ -52,12 +52,9 @@ sudo_cache() {
 start_routines() {
   sudo_cache
 
-  whiptail --backtitle "Ubuntu Helper Scripts" --title "UPDATE" --menu "\nUpdate Ubuntu now?" 11 58 2 \
-    "yes" " " \
-    "no" " " 3>&2 2>&1 1>&3
-  CHOICE=$?
-
-  case $CHOICE in
+  dialog --backtitle "Ubuntu Helper Scripts" --title "UPDATE" --yesno "Update Ubuntu now?" 11 58
+    CHOICE=$?
+    case $CHOICE in
     0)
       msg_info "Updating Ubuntu (Patience)"
       sudo apt-get update &>/dev/null
@@ -67,14 +64,11 @@ start_routines() {
     1)
       msg_error "Selected no to Updating Ubuntu"
       ;;
-  esac
-
-  whiptail --backtitle "Ubuntu Helper Scripts" --title "REBOOT" --menu "\nReboot Ubuntu now? (recommended)" 11 58 2 \
-    "yes" " " \
-    "no" " " 3>&2 2>&1 1>&3
-  CHOICE=$?
+    esac
   
-  case $CHOICE in
+  dialog --backtitle "Ubuntu Helper Scripts" --title "REBOOT" --yesno "Reboot Ubuntu now? (recommended)" 11 58
+    CHOICE=$?
+    case $CHOICE in
     0)
       msg_info "Rebooting Proxmox VE"
       sleep 2
@@ -85,7 +79,7 @@ start_routines() {
       msg_error "Selected no to Rebooting Ubuntu (Reboot recommended)"
       msg_ok "Completed Post Install Routines"
       ;;
-  esac
+    esac
 }
 
 header_info
