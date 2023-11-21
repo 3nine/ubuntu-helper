@@ -52,7 +52,7 @@ sudo_cache() {
 start_routines() {
   sudo_cache
 
-  whiptail --backtitle "Ubuntu Helper Scripts" --title "REBOOT" --menu "\nReboot Ubuntu now? (recommended)" 11 58 2 \
+  whiptail --backtitle "Ubuntu Helper Scripts" --title "UPDATE" --menu "\nUpdate Ubuntu now?" 11 58 2 \
     "yes" " " \
     "no" " " 3>&2 2>&1 1>&3
   CHOICE=$?
